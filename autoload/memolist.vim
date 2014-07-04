@@ -9,11 +9,6 @@
 " - this plugin was already loaded (or disabled)
 " - when 'compatible' is set
 
-if &cp || exists("g:autoloaded_memolist")
-  finish
-endif
-let g:autoloaded_memolist= '1'
-
 let s:cpo_save = &cpo
 set cpo&vim
 

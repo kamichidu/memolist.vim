@@ -8,7 +8,7 @@
 " - this plugin was already loaded (or disabled)
 " - when 'compatible' is set
 
-if (exists("g:loaded_memolist") && g:loaded_memolist) || &cp
+if exists("g:loaded_memolist") && g:loaded_memolist
   finish
 endif
 let g:loaded_memolist = 1
@@ -25,5 +25,6 @@ command! -nargs=? MemoGrep :call memolist#grep(<q-args>)
 command! -nargs=? MemoNew :call memolist#new(<q-args>)
 
 let &cpo = s:cpo_save
+unlet s:cpo_save
 
 " vim:set ft=vim ts=2 sw=2 sts=2:
