@@ -56,6 +56,17 @@ if !exists('g:memolist_grep_options')
   let g:memolist_grep_options = ""
 endif
 
+if !exists('g:memolist_template_content')
+  let g:memolist_template_content = [
+  \ 'title: {{_title_}}',
+  \ '==========',
+  \ 'date: {{_date_}}',
+  \ 'tags: [{{_tags_}}]',
+  \ 'categories: [{{_categories_}}]',
+  \ '- - -',
+  \]
+endif
+
 function! s:esctitle(str)
   let str = a:str
   let str = tolower(str)
@@ -146,7 +157,7 @@ function! memolist#new(title)
   exe (&l:modified ? "sp" : "e") s:escarg(g:memolist_path . "/" . file_name)
 
   " memo template
-  let template = s:default_template
+  let template = g:memolist_template_content
   if g:memolist_template_dir_path != ""
     let path = expand(g:memolist_template_dir_path, ":p")
     let path = path . "/" . g:memolist_memo_suffix . ".txt"
@@ -162,15 +173,6 @@ function! memolist#new(title)
   set nomodified
 
 endfunction
-
-let s:default_template = [
-\ 'title: {{_title_}}',
-\ '==========',
-\ 'date: {{_date_}}',
-\ 'tags: [{{_tags_}}]',
-\ 'categories: [{{_categories_}}]',
-\ '- - -',
-\]
 
 function! s:apply_template(template, items)
   let mx = '{{_\(\w\+\)_}}'
