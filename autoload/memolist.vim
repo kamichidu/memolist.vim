@@ -52,6 +52,10 @@ if !exists('g:memolist_unite_option')
   let g:memolist_unite_option = ""
 endif
 
+if !exists('g:memolist_grep_options')
+  let g:memolist_grep_options = ""
+endif
+
 function! s:esctitle(str)
   let str = a:str
   let str = tolower(str)
@@ -93,11 +97,7 @@ function! memolist#grep(word)
   endif
 
   try
-    if get(g:, 'memolist_qfixgrep', 0) != 0
-      exe "Vimgrep -r" s:escarg(word) s:escarg(g:memolist_path . "/*")
-    else
-      exe "vimgrep" s:escarg(word) s:escarg(g:memolist_path . "/*")
-    endif
+    call unite#start([['grep', g:memolist_path, '', word]])
   catch
     redraw | echohl ErrorMsg | echo v:exception | echohl None
   endtry
