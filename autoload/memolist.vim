@@ -12,6 +12,14 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
+try
+  call milqi#version()
+  let s:milqi_installed= 1
+catch
+  let s:milqi_installed= 0
+endtry
+echomsg s:milqi_installed
+
 " Utility Functions {{{1
 function! s:error(str)
   echohl ErrorMsg
@@ -93,6 +101,8 @@ function! memolist#list()
     exe "VimFiler" g:memolist_vimfiler_option s:escarg(g:memolist_path)
   elseif get(g:, 'memolist_unite', 0) != 0
     exe "Unite" g:memolist_unite_source.':'.s:escarg(g:memolist_path) g:memolist_unite_option
+  elseif s:milqi_installed
+    call memolist#milqi#list(g:memolist_path)
   else
     exe "e" s:escarg(g:memolist_path)
   endif
